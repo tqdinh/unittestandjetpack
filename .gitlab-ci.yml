@@ -1,3 +1,28 @@
+image: openjdk:11
+
+variables:
+  ANDROID_COMPILE_SDK: "34"
+  ANDROID_BUILD_TOOLS: "34.0.0"
+  ANDROID_SDK_ROOT: "$CI_PROJECT_DIR/android-sdk"
+  GRADLE_USER_HOME: "$CI_PROJECT_DIR/.gradle"
+
+cache:
+  key: "$CI_COMMIT_REF_SLUG"
+  paths:
+    - .gradle/wrapper
+    - .gradle/caches
+
+before_script:
+  - mkdir -p $ANDROID_SDK_ROOT
+  - yes | sdkmanager --licenses
+  - sdkmanager "platforms;android-$ANDROID_COMPILE_SDK" "build-tools;$ANDROID_BUILD_TOOLS" "platform-tools"
+  - sdkmanager "system-images;android-$ANDROID_COMPILE_SDK;default;x86_64"
+  - sdkmanager "emulator"
+  - echo "Setting up AVD"
+  - avdmanager create avd -n test -k "system-images;android-$ANDROID_COMPILE_SDK;default;x86_64" --force
+  - $ANDROID_SDK_ROOT/emulator/emulator-headless @test -no-snapshot-save -no-window -no-audio &
+
+
 build-job:
   stage: build
   script:
