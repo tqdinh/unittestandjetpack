@@ -3,10 +3,11 @@ build-job:
   script:
     - echo "Hello, $GITLAB_USER_LOGIN!"
 
-test-job1:
+unit_test:
   stage: test
   script:
     - echo "This job tests something"
+    - ./gradlew test
 
 test-job2:
   stage: test
