@@ -44,6 +44,8 @@ jobs:
 
     steps:
       # run init test
+      - name: Checkout code
+        uses: actions/checkout@v2
 
         
       - name: Grant execute permission for Gradle wrapper
