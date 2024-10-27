@@ -1,18 +1,51 @@
-name: Hello World Workflow
+name: Android CI
 
 on:
   push:
     branches:
       - main
-
+  pull_request:
+    branches:
+      - main
 jobs:
-  say-hello:
+  #job build
+  build:
     runs-on: ubuntu-latest
+
     steps:
-      # Step 1: Check out the repository
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # Step 2: Run echo command
-      - name: Print Hello World
-        run: echo "Hello, World!"
+      - name: Setup jdk 11
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+      
+      - name: Setup android SDK
+        uses: android-actions/setup-android@v2
+        with:
+          api-level: 34
+          build-tools: "34.0.0"
+      
+      - name: Grant execute permission for Gradle wrapper
+        run: chmod +x ./gradlew
+
+      # build SDK
+
+      - name: Build APK
+        run: ./gradlew assembleRelease
+
+      # run init test
+      - name: Run Unit Tests
+        run: ./gradlew test
+      
+      # run integration test
+      - name: Start emulator
+        uses: android-actions/emulator-runner@v2
+        with:
+          api-level: 30
+          script: abd shell input keyevent 82
+
+      - name: Run Integration Tests
+        run: ./gradlew connectedAndroidTest
+    
