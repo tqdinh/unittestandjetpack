@@ -37,12 +37,16 @@ jobs:
         run: ./gradlew assembleRelease
  
   unittest:
+    runs-on: ubuntu-latest
+
     steps:
       # run init test
       - name: Run Unit Tests
         run: ./gradlew test
   
   integrationTest:    
+    runs-on: ubuntu-latest
+    
     steps:
       # run integration test
       - name: Start emulator
