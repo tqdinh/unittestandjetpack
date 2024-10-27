@@ -43,6 +43,7 @@ jobs:
     steps:
       # run init test
       - name: Run Unit Tests
+        working-directory: app
         run: ./gradlew test
   
   integrationTest:    
