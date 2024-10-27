@@ -92,16 +92,26 @@ jobs:
       - name: Start emulator
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 33  # Use API 33
+          api-level: 30   # Adjust API level if needed
           target: default
           arch: x86_64
           script: adb shell input keyevent 82
+          disable-animations: true
+          emulator-options: -no-window -noaudio
+
 
       # Wait for the emulator to boot
       - name: Wait for Emulator to Boot
         run: |
           adb wait-for-device
-          adb shell getprop init.svc.bootanim | grep stopped
+          boot_status=""
+          until [[ "$boot_status" =~ "1" ]]; do
+            sleep 5
+            boot_status=$(adb -s emulator-5554 shell getprop sys.boot_completed | tr -d '\r')
+            echo "Waiting for emulator to fully boot..."
+          done
+          echo "Emulator boot completed."
+
 
       - name: Run Integration Tests
         run: ./gradlew connectedAndroidTest
