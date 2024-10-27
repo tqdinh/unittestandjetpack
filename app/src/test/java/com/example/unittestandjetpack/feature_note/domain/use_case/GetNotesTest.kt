@@ -50,6 +50,16 @@ class GetNotesTest {
     }
 
     @Test
+    fun testorder() = runBlocking {
+        val notes = getNotes(NoteOrder.Title(OrderType.Ascending)).first()
+
+        for ( i in 0..notes.size -2)
+        {
+            assertThat(notes[i].title).isLessThan(notes[i+1].title)
+        }
+    }
+
+    @Test
     fun `Order notes by title descending, correct order`() = runBlocking {
         val notes = getNotes(NoteOrder.Title(OrderType.Descending)).first()
         for (i in 0..notes.size -2){
