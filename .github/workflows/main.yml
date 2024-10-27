@@ -35,8 +35,8 @@ jobs:
 
       # - name: Build APK
       #   run: ./gradlew assembleRelease
-      - name: Unit test
-        run: ./gradlew test
+      # - name: Unit test
+      #   run: ./gradlew test
  
   unittest:
     needs: build
@@ -44,11 +44,16 @@ jobs:
 
     steps:
       # run init test
+
+        
+      - name: Grant execute permission for Gradle wrapper
+        run: chmod +x ./gradlew
+
       - name: Run Unit Tests
-        working-directory: app
         run: ./gradlew test
   
   integrationTest:    
+    needs: build
     runs-on: ubuntu-latest
     
     steps:
