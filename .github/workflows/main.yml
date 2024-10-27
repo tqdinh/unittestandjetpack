@@ -64,55 +64,7 @@ jobs:
 
       - name: Run Unit Tests
         run: ./gradlew test
-  
-  integrationTest:    
-    needs: build
-    runs-on: ubuntu-latest
-    
-    steps:
-      # run integration test
-
-      - name: Checkout code
-        uses: actions/checkout@v2
-    
-      - name: Setup jdk 17
-        uses: actions/setup-java@v2
-        with:
-          distribution: 'adopt'
-          java-version: '17'
       
-      - name: Setup android SDK
-        uses: android-actions/setup-android@v2
-        with:
-          api-level: 34
-          build-tools: "34.0.0"
-        
-
-
-      - name: Start emulator
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: 30   # Adjust API level if needed
-          target: default
-          arch: x86_64
-          script: adb shell input keyevent 82
-          disable-animations: true
-          emulator-options: -no-window -noaudio
-
-
-      # Wait for the emulator to boot
-      - name: Wait for Emulator to Boot
-        run: |
-          adb wait-for-device
-          boot_status=""
-          until [[ "$boot_status" =~ "1" ]]; do
-            sleep 5
-            boot_status=$(adb -s emulator-5554 shell getprop sys.boot_completed | tr -d '\r')
-            echo "Waiting for emulator to fully boot..."
-          done
-          echo "Emulator boot completed."
-
-
       - name: Run Integration Tests
         run: ./gradlew connectedAndroidTest
-    
+  
