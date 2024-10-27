@@ -95,7 +95,7 @@ jobs:
           api-level: 33  # Use API 33
           target: default
           arch: x86_64
-          script: abd shell input keyevent 82
+          script: adb shell input keyevent 82
 
       # Wait for the emulator to boot
       - name: Wait for Emulator to Boot
