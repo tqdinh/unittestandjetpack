@@ -33,8 +33,10 @@ jobs:
 
       # build SDK
 
-      - name: Build APK
-        run: ./gradlew assembleRelease
+      # - name: Build APK
+      #   run: ./gradlew assembleRelease
+      - name: Unit test
+        ./gradlew test
  
   unittest:
     needs: build
