@@ -1,6 +1,11 @@
 name: Android emulator
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
     
 env:
   ANDROID_ARCH: x86_64
