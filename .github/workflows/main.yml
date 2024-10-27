@@ -36,7 +36,7 @@ jobs:
       # - name: Build APK
       #   run: ./gradlew assembleRelease
       - name: Unit test
-        ./gradlew test
+        run: ./gradlew test
  
   unittest:
     needs: build
