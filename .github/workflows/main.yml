@@ -35,12 +35,15 @@ jobs:
 
       - name: Build APK
         run: ./gradlew assembleRelease
+ 
   unittest:
-    setps:
+    steps:
       # run init test
       - name: Run Unit Tests
         run: ./gradlew test
+  
   integrationTest:    
+    steps:
       # run integration test
       - name: Start emulator
         uses: reactivecircus/android-emulator-runner@v2
