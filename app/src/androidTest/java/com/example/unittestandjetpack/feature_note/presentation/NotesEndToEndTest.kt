@@ -140,9 +140,11 @@ class NotesEndToEndTest {
         composeRule.onNodeWithContentDescription("Title").performClick()
         composeRule.onNodeWithContentDescription("Descending").performClick()
 
-        composeRule.onAllNodesWithTag(TestTags.NOTE_ITEM)[0].assertTextContains("1")
-        composeRule.onAllNodesWithTag(TestTags.NOTE_ITEM)[1].assertTextContains("2")
-        composeRule.onAllNodesWithTag(TestTags.NOTE_ITEM)[2].assertTextContains("3")
+        val k =composeRule.onAllNodesWithTag(TestTags.NOTE_ITEM)
+        
+        k[0].assertTextContains("1")
+        k[1].assertTextContains("2")
+        k[2].assertTextContains("3")
     }
 
 
